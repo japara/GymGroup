@@ -3,10 +3,12 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 function AppLayout() {
-  return <div>
+  return (
+  <div>
     <Header />
     <Footer />
-  </div>;
+  </div>
+  );
 }
 
 export default AppLayout;
