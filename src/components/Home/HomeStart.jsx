@@ -1,11 +1,10 @@
 import React from "react";
-import HomeBG from "../assets/HomeBG.jpeg";
 
 function HomeStart() {
   return (
     <div
       className="relative w-full h-[797px] bg-cover bg-center flex items-center text-white pl-[80px]"
-      style={{ backgroundImage: `url(${HomeBG})` }}
+      style={{ backgroundImage: `url(/HomeBG.jpeg)` }}
     >
       {/* Overlay for Opacity */}
       <div className="absolute inset-0 bg-black opacity-40"></div>

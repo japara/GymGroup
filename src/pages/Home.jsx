@@ -1,6 +1,6 @@
 import React from "react";
-import HomeStart from "../components/HomeStart";
-import HomeCustomerData from "../components/HomeCustomerData";
+import HomeStart from "../components/Home/HomeStart";
+import HomeCustomerData from "../components/Home/HomeCustomerData";
 
 function Home() {
   return (

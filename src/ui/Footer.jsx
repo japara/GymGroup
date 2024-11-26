@@ -1,7 +1,6 @@
 import React from "react";
 import { IoLogoTiktok, IoLogoInstagram, IoLogoFacebook } from "react-icons/io5";
 import { PiXLogoLight } from "react-icons/pi";
-import logo from "../assets/logo.png";
 
 function Footer() {
   return (
@@ -11,7 +10,7 @@ function Footer() {
           TRANSFORM
           <br /> WITH TUNA
         </p>
-        <img src={logo} alt="logo" className="w-[3.125rem] h-[3.125rem]" />
+        <img src="/logo.png" alt="logo" className="w-[3.125rem] h-[3.125rem]" />
       </div>
       <div className="flex flex-col font-[400]">
         <ul className="flex gap-4 text-[20px]">

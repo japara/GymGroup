@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa"; // Icons for the burger menu
-import logo from "../assets/logo.png";
 
 function Header() {
   const [activeItem, setActiveItem] = useState("Home");
@@ -20,7 +19,7 @@ function Header() {
     <header className="flex justify-between items-center w-full bg-transparent fixed top-0 left-0 px-6 py-4 md:px-20 z-50">
       {/* Logo and Title */}
       <div className="flex items-center gap-4">
-        <img src={logo} alt="logo" className="w-12 h-12" />
+        <img src="/logo.png" alt="logo" className="w-12 h-12" />
         <p className="bg-gradient-to-b from-[#D7FD44] to-[#5C6B20] bg-clip-text text-transparent text-lg md:text-2xl font-semibold">
           TRANSFORM
           <br /> WITH TUNA
