@@ -1,22 +1,47 @@
-import React, { useState } from "react";
-import { FaBars, FaTimes } from "react-icons/fa"; // Icons for the burger menu
+import React, { useState, useEffect } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 function Header() {
-  const [activeItem, setActiveItem] = useState("Home");
-  const [menuOpen, setMenuOpen] = useState(false); // State for burger menu toggle
-  const menuItems = ["Home", "Stories", "Service", "Contact"];
-  const [showBurger, setShowBurger] = useState(false); // Track if burger icon is shown
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [showBurger, setShowBurger] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false); // Track scroll state
 
-  React.useEffect(() => {
-    // Add a small delay before showing the burger icon
+  // Show the burger menu icon with a delay
+  useEffect(() => {
     const timer = setTimeout(() => {
       setShowBurger(true);
-    }, 300); // Delay in milliseconds (adjust as needed)
+    }, 300);
     return () => clearTimeout(timer);
   }, []);
 
+  // Detect scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const menuItems = [
+    { name: "Home", path: "/" },
+    { name: "Stories", path: "/stories" },
+    { name: "Services", path: "/services" },
+    { name: "Contact", path: "/contact" },
+  ];
+
   return (
-    <header className="flex justify-between items-center w-full bg-transparent fixed top-0 left-0 px-6 py-4 md:px-20 z-50">
+    <header
+      className={`flex justify-between items-center w-full fixed top-0 left-0 px-6 py-4 md:px-20 z-50 transition-all duration-300 ${
+        isScrolled ? "bg-[#242424] shadow-lg" : "bg-transparent"
+      }`}
+    >
       {/* Logo and Title */}
       <div className="flex items-center gap-4">
         <img src="/logo.png" alt="logo" className="w-12 h-12" />
@@ -29,17 +54,20 @@ function Header() {
       {/* Full Menu for Larger Screens */}
       <nav className="hidden md:flex gap-8 bg-[#222222] p-4 rounded-[46px] border border-[#4D4D4D]">
         {menuItems.map((item) => (
-          <button
-            key={item}
-            className={`px-4 py-2 rounded-[46px] font-bold ${
-              activeItem === item
-                ? "bg-[#D7FD44] text-black"
-                : "text-[#C4C4C4] hover:bg-[#D7FD44] hover:text-black"
-            }`}
-            onClick={() => setActiveItem(item)}
+          <NavLink
+            key={item.name}
+            to={item.path}
+            className={({ isActive }) =>
+              `px-4 py-2 rounded-[46px] font-bold ${
+                isActive
+                  ? "bg-[#D7FD44] text-black"
+                  : "text-[#C4C4C4] hover:bg-[#D7FD44] hover:text-black"
+              }`
+            }
+            onClick={() => setMenuOpen(false)}
           >
-            {item}
-          </button>
+            {item.name}
+          </NavLink>
         ))}
       </nav>
 
@@ -67,19 +95,20 @@ function Header() {
         <div className="absolute top-[70px] right-0 bg-[#4D4D4D] text-[#D7FD44] w-64 p-4 md:hidden">
           <ul className="flex flex-col gap-4 items-center">
             {menuItems.map((item) => (
-              <li
-                key={item}
-                className={`cursor-pointer px-4 py-2 rounded-[46px] w-full text-center ${
-                  activeItem === item
-                    ? "bg-[#D7FD44] text-black"
-                    : "hover:bg-[#D7FD44] hover:text-black"
-                }`}
-                onClick={() => {
-                  setActiveItem(item);
-                  setMenuOpen(false); // Close menu after selecting an item
-                }}
-              >
-                {item}
+              <li key={item.name}>
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `cursor-pointer px-4 py-2 rounded-[46px] w-full text-center ${
+                      isActive
+                        ? "bg-[#D7FD44] text-black"
+                        : "hover:bg-[#D7FD44] hover:text-black"
+                    }`
+                  }
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item.name}
+                </NavLink>
               </li>
             ))}
           </ul>
