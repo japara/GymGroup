@@ -14,34 +14,33 @@ function FitnessJourney() {
   }
 
   return (
-    <Swiper
-      spaceBetween={20}
-      slidesPerView={4}
-      navigation
-      pagination={{ clickable: true }}
-      loop={true}
-    >
-      {data.services.map((el) => (
-        <SwiperSlide key={el.id}>
-          <div className="relative group w-[305px] h-[335px] flex flex-col items-center text-left transition-all duration-300">
-            {/* Image */}
-            <img
-              src={el.image}
-              alt={el.name || "Service image"}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:h-[50%]"
-            />
+    <div className="p-[80px]">
+      <p className="text-[32px]  mb-[24px] font-[700] text-left  text-transparent bg-gradient-to-b from-[#C4C4C4] to-[#7E7E7E] bg-clip-text">
+        Your Fitness Journey Starts Here
+      </p>
+      <Swiper spaceBetween={20} slidesPerView="auto" className="w-full h-full">
+        {data.services.map((el) => (
+          <SwiperSlide key={el.id} className="!w-[305px] flex-shrink-0 gap-4">
+            <div className="group w-full h-[335px] flex flex-col text-left transition-all duration-300 p-2 border rounded-[14px] border-[#4d4d4d]">
+              {/* Image */}
+              <img
+                src={el.image}
+                alt={el.name || "Service image"}
+                className="w-full h-[90%] rounded- object-cover transition-transform duration-300 group-hover:h-[50%]"
+              />
 
-            {/* Name */}
-            <p className="text-white font-bold text-lg mt-2">{el.name}</p>
+              {/* Name */}
+              <p className="text-white font-bold text-lg mt-2">{el.name}</p>
 
-            {/* Description (hidden by default) */}
-            <p className="absolute top-[250px] text-white text-sm hidden group-hover:block transition-all duration-300">
-              {el.description}
-            </p>
-          </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
+              {/* Description */}
+              <p className="text-white hidden text-[14px] group-hover:block transition-all duration-300 whitespace-normal overflow-hidden text-ellipsis">
+                {el.description}
+              </p>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 }
 
