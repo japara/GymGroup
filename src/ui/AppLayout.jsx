@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 
 function AppLayout() {
   return (
-    <div>
+    <div className="bg-[#121212]">
       <Header />
       <main>
         <Outlet />
