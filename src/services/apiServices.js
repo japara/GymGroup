@@ -5,3 +5,11 @@ export const getAllServices = async () => {
 
   return { services, error };
 };
+
+export const getAllSuccessStories = async () => {
+  let { data: successStory, error } = await supabase
+    .from("successStory")
+    .select("*");
+
+  return { successStory, error };
+};
