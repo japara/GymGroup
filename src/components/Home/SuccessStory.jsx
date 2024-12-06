@@ -3,8 +3,7 @@ import { useGetAllSuccessStories } from "../../hooks/useGetAllSuccesStories";
 import Arrow from "./Arrow";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import "swiper/css/grid";
 
 function SuccessStory() {
   const { data, isLoading, isError, error } = useGetAllSuccessStories();
@@ -32,47 +31,35 @@ function SuccessStory() {
   return (
     <div className="border border-[#4D4D4D] flex flex-col items-center p-[80px] m-[80px] rounded-2xl">
       <div className="w-full flex justify-start">
-        <Arrow count={4} direction="right" />
+        <Arrow count={isMobile ? 2 : 4} direction="right" />
       </div>
-      <div className=" w-full">
-        {isMobile ? (
-          // Swiper for smaller screens
-          <Swiper
-            spaceBetween={2}
-            slidesPerView={1}
-            loop={true}
-            centeredSlides={true}
-            className="w-full"
-          >
-            {data.successStory.map((el) => (
-              <SwiperSlide
-                key={el.id}
-                className="flex justify-center items-center "
-              >
-                <img
-                  src={el.image}
-                  alt={el.name || "Success image"}
-                  className="w-full h-auto max-w-[60%] max-h-fit object-cover ml-[20%] mt-[50px]"
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        ) : (
-          // Flex layout for larger screens
-          <div className="text-center gap-[92px] flex flex-wrap justify-center">
-            {data.successStory.map((el) => (
+      <div className="w-full ">
+        <Swiper
+          key={isMobile}
+          spaceBetween={20}
+          slidesPerView={isMobile ? 1 : 4} // 3 slides per row
+          grid={{
+            rows: isMobile ? 1 : 3, // 3 rows for the grid
+          }}
+          loop={true}
+          className="w-full"
+        >
+          {data.successStory.map((el, index) => (
+            <SwiperSlide
+              key={index}
+              className="flex justify-center items-center ml-[4%]"
+            >
               <img
-                key={el.id}
                 src={el.image}
                 alt={el.name || "Success image"}
-                className="w-[305px] h-[190px] object-cover"
+                className="w-[305px] h-[190px] object-cover m-[50px]"
               />
-            ))}
-          </div>
-        )}
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
       <div className="w-full flex justify-end">
-        <Arrow count={4} direction="left" />
+        <Arrow count={isMobile ? 2 : 4} direction="left" />
       </div>
     </div>
   );
