@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@react-router/node": "7.0.0-pre.6",
     "@react-router/serve": "7.0.0-pre.6",
     "@supabase/supabase-js": "^2.46.1",
