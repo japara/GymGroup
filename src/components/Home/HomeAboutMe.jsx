@@ -1,29 +1,17 @@
-import { useEffect, useState } from "react";
-import { supabase } from "../../services/supabase";
+import { useGetallAboutMe } from "../../hooks/useGetallAboutMe";
+import HomeAboutMeLoad from "../../skeletons/HomeAboutMeLoad";
 
 export default function HomeAboutMe() {
-    const [about, setAbout] = useState([]);
+   
+    const { data, isLoading, isError, error } = useGetallAboutMe();
 
-    // Define the data fetching function using useCallback to prevent unnecessary recreations
-    async function getDataAbout() {
-        try {
-            const { data, error } = await supabase
-                .from('about')
-                .select('*');
-            if (error) {
-                console.error('Error fetching data:', error);
-                return;
-            }
-            setAbout(data); 
-        } catch (err) {
-            console.error('Unexpected error:', err);
-        }
-    }; 
-
-    // Trigger the data fetch on component mount
-    useEffect(() => {
-        getDataAbout(); 
-    }, []); 
+    if (isLoading) {
+        return <HomeAboutMeLoad />
+      }
+    
+      if (isError) {
+        return <p>Something went wrong: {error?.message || "Unknown error"}</p>;
+      }
 
     return (
         <div className="w-full h-fit bg-[#121212] px-[37.5px] md:px-[5%] ">
@@ -33,7 +21,7 @@ export default function HomeAboutMe() {
             </h2>
 
             {/* About Me Content */}
-            {about?.filter(function filterAboutArray(item){return item.id == 1}).map(function getHomeAboutMeItem(item){
+            {data?.about.filter(function filterAboutArray(item){return item.id == 1}).map(function getHomeAboutMeItem(item){
                 return(
                     <div key={item.id} className="flex flex-col md:flex-row md:gap-x-[4.4%] xl:justify-start xl:gap-x-[0px] ">
                     <div className="flex w-[100%] w-full md:w-[45%]">

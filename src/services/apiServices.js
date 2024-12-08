@@ -13,3 +13,11 @@ export const getAllSuccessStories = async () => {
 
   return { successStory, error };
 };
+
+
+export const getHomeAboutMe = async ()=> {
+      const { data: about, error } = await supabase
+        .from('about')
+        .select('*');
+        return { about, error}
+}; 
