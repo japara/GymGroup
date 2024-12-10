@@ -33,6 +33,7 @@ function Header() {
     { name: "Home", path: "/" },
     { name: "Stories", path: "/stories" },
     { name: "Services", path: "/services" },
+    { name: "Blogs", path: "/blogs" },
     { name: "Contact", path: "/contact" },
   ];
 

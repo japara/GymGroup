@@ -21,3 +21,10 @@ export const getHomeAboutMe = async ()=> {
         .select('*');
         return { about, error}
 }; 
+
+export const getAllBlogs = async ()=> {
+  const { data: blog, error } = await supabase
+    .from('blog')
+    .select('*');
+    return { blog, error}
+}; 
