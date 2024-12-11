@@ -1,7 +1,11 @@
 import React from "react";
+import  Prices  from "./Prices";
+
 
 function Services() {
-  return <div>Services</div>;
+  return <div>
+    <Prices/>
+  </div>;
 }
 
 export default Services;
