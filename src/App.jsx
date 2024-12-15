@@ -5,11 +5,20 @@ import Stories from "./pages/Stories";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import Blogs from "./pages/Blogs";
+import AdminPanel from "./pages/ProtectedPages/AdminPanel";
+import AdminDashboard from "./pages/ProtectedPages/AdminDashboard";
+import AdminAutLayout from "./pages/ProtectedPages/AdminAutLayout";
 
 function App() {
   return (
     <>
       <Routes>
+
+        <Route element={<AdminAutLayout />}>
+          <Route path="/admin" element={<AdminPanel />}/>
+          <Route path="/admin/dashboard" element={<AdminDashboard />}/>
+        </Route>
+
         <Route path="/" element={<AppLayout />}>
           <Route index element={<Home />} />
           <Route path="/stories" element={<Stories />} />
