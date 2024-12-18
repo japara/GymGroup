@@ -1,7 +1,21 @@
 import { useEffect, useState } from "react";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import AdminHeader from "../../components/AdminPanel/AdminHeader";
+import AdminMenuMB from "../../components/AdminPanel/AdminMenuMB";
+import AdminMenuPC from "../../components/AdminPanel/AdminMenuPC";
 
 export default function AdminPanelLayout() {
+
+  const {pathname} = useLocation();
+  const [isAdminAut, setIsAdminAut] = useState()
+   useEffect(()=>{
+    if(pathname == "/admin"){
+      setIsAdminAut(false)
+    }else{
+      setIsAdminAut(true)
+    }
+   })
+
   const [isadmin, setIsAdmin] = useState(false)
   const [adminState, setAdminState] = useState(() => {
     // Only read localStorage once, during the initial render
@@ -25,5 +39,25 @@ export default function AdminPanelLayout() {
     }
   }, [isadmin])
 
-return <Outlet />;
+return (
+  <>
+  {/* if pathname is "admin" hidden header element */}
+    {
+      isAdminAut && 
+      <header>
+        <AdminHeader />
+        <AdminMenuPC />
+    </header>
+    }
+    <Outlet />
+
+      {/* if pathname is "admin" hidden menu element */}
+      {
+      isAdminAut && 
+      <div>
+        <AdminMenuMB />
+      </div>
+    }
+  </>
+);
 }

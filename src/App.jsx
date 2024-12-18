@@ -8,6 +8,9 @@ import Blogs from "./pages/Blogs";
 import AdminPanelLayout from "./pages/AdminPanel/AdminPanelLayout";
 import AdminDashboard from "./pages/AdminPanel/AdminDashboard";
 import AdminAut from "./pages/AdminPanel/AdminAut";
+import AdminBlogs from "./pages/AdminPanel/AdminBlogs";
+import AdminAboutMe from "./pages/AdminPanel/AdminAboutMe";
+import AdminServices from "./pages/AdminPanel/AdminServices";
 
 function App() {
   return (
@@ -17,6 +20,9 @@ function App() {
         <Route path="/admin" element={<AdminPanelLayout />}>
           <Route  index element={<AdminAut />} />
           <Route  path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route  path="/admin/blogs" element={<AdminBlogs />} />
+          <Route  path="/admin/aboutme" element={<AdminAboutMe />} />
+          <Route  path="/admin/services" element={<AdminServices />} />
         </Route>
 
         <Route path="/" element={<AppLayout />}>
