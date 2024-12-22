@@ -6,14 +6,14 @@ export default function AdminAut(){
     
       const [adminState, setAdminState] = useState(() => {
         // Only read localStorage once, during the initial render
-        const savedAdminState = localStorage.getItem("auTAdminState");
+        const savedAdminState = localStorage.getItem("autAdminState");
         return savedAdminState ? JSON.parse(savedAdminState) : { username: "", password: "" };
       });
     
       useEffect(() => {
         // Store the admin state in localStorage only when it changes
         if (adminState.username || adminState.password) {
-          localStorage.setItem("auTAdminState", JSON.stringify(adminState));
+          localStorage.setItem("autAdminState", JSON.stringify(adminState));
         }
       }, [adminState]); // Run this effect only when `adminState` changes
       

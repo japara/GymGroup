@@ -28,3 +28,10 @@ export const getAllBlogs = async ()=> {
     .select('*');
     return { blog, error}
 }; 
+
+export const getAllPrices = async ()=> {
+  const { data: prices, error } = await supabase
+    .from('prices')
+    .select('*');
+    return { prices, error}
+}; 

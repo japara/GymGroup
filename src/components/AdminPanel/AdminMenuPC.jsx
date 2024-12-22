@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 export default function AdminMenuPC(){
     const adminMenuItems = [
         { name: "Dashboard", path: "/admin/dashboard" },
-        { name: "Blogs", path: "/admin/blogs" },
+        { name: "Add Blogs", path: "/admin/blogs" },
         { name: "About Me", path: "/admin/aboutme" },
         { name: "Services", path: "/admin/services" },
       ];
