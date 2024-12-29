@@ -31,39 +31,22 @@ const AdminAboutMe = () => {
 
   const handleProfilePictureUpload = (e) => {
     // Handle profile picture upload
-    const file = e.target.files[0];
-    if (file) {
-      // Add your image upload logic here
-      console.log("Uploading profile picture:", file);
-    }
   };
 
   const handleSuccessStoryUpload = (e) => {
     // Handle success story image upload
-    const files = e.target.files;
-    if (files) {
-      // Add your success stories upload logic here
-      console.log("Uploading success stories:", files);
-    }
   };
 
   const removeProfilePicture = () => {
-    setFormData((prev) => ({
-      ...prev,
-      profilePicture: null,
-    }));
+    // Handle profile picture removal
   };
 
   const addExperience = () => {
-    // Add new certification input field
-    setFormData((prev) => ({
-      ...prev,
-      certifications: [...prev.certifications, ""],
-    }));
+    // Handle adding new certification/experience
   };
 
   return (
-    <div className="px-[20%] py-[5rem] my-[-2px] max-w-full mx-auto bg-[#121212] min-h-screen text-white">
+    <div className="p-6 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-2">About me</h1>
       <p className="text-gray-400 mb-8">Add info for your clients</p>
 
@@ -80,19 +63,10 @@ const AdminAboutMe = () => {
               />
             )}
           </div>
-          <label className="bg-[#CCFF00] text-black px-4 py-2 rounded-full flex items-center gap-2 cursor-pointer">
+          <button className="bg-[#CCFF00] text-black px-4 py-2 rounded-full flex items-center gap-2">
             <FaPlus /> Upload New
-            <input
-              type="file"
-              className="hidden"
-              onChange={handleProfilePictureUpload}
-              accept="image/*"
-            />
-          </label>
-          <button
-            onClick={removeProfilePicture}
-            className="border border-[#CCFF00] text-[#CCFF00] px-4 py-2 rounded-full"
-          >
+          </button>
+          <button className="border border-[#CCFF00] text-[#CCFF00] px-4 py-2 rounded-full">
             Remove Profile Picture
           </button>
         </div>
@@ -163,10 +137,7 @@ const AdminAboutMe = () => {
               {cert}
             </p>
           ))}
-          <button
-            onClick={addExperience}
-            className="border border-[#CCFF00] text-[#CCFF00] px-4 py-2 rounded-full mt-4 flex items-center gap-2"
-          >
+          <button className="border border-[#CCFF00] text-[#CCFF00] px-4 py-2 rounded-full mt-4 flex items-center gap-2">
             <FaPlus /> Add Experience
           </button>
         </div>
@@ -190,17 +161,10 @@ const AdminAboutMe = () => {
               </div>
             ))}
           </div>
-          <label className="flex items-center gap-2 bg-gray-700 rounded-lg p-4 cursor-pointer">
+          <button className="flex items-center gap-2 bg-gray-700 rounded-lg p-4">
             <FaPlus className="text-[#CCFF00]" />
             <span>Upload photos of your client's success stories</span>
-            <input
-              type="file"
-              multiple
-              className="hidden"
-              onChange={handleSuccessStoryUpload}
-              accept="image/*"
-            />
-          </label>
+          </button>
         </div>
       </div>
 
