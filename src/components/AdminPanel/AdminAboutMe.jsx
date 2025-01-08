@@ -3,10 +3,6 @@ import { FaPlus } from "react-icons/fa";
 
 const AdminAboutMe = () => {
   const [formData, setFormData] = useState({
-    fullname: "Tuna",
-    professionalTitle: "Certified Personal Trainer",
-    location: "Tbilisi, Georgia",
-    contact: "+995 595 264 972",
     story:
       "Hi, I'm Tuna, a personal trainer dedicated to helping people transform through fitness. My journey began when I overcame my own struggles with body confidence and health. Now, I use my experience to empower others to achieve their fitness goals...",
     certifications: [
@@ -69,50 +65,6 @@ const AdminAboutMe = () => {
           <button className="border border-[#CCFF00] text-[#CCFF00] px-4 py-2 rounded-full">
             Remove Profile Picture
           </button>
-        </div>
-      </div>
-
-      {/* Basic Info Section */}
-      <div className="grid grid-cols-2 gap-6 mb-8">
-        <div>
-          <label className="block text-white mb-2">Input your Fullname</label>
-          <input
-            type="text"
-            name="fullname"
-            value={formData.fullname}
-            onChange={handleInputChange}
-            className="w-full bg-gray-800 rounded-lg p-3"
-          />
-        </div>
-        <div>
-          <label className="block text-white mb-2">Professional Title</label>
-          <input
-            type="text"
-            name="professionalTitle"
-            value={formData.professionalTitle}
-            onChange={handleInputChange}
-            className="w-full bg-gray-800 rounded-lg p-3"
-          />
-        </div>
-        <div>
-          <label className="block text-white mb-2">Location</label>
-          <input
-            type="text"
-            name="location"
-            value={formData.location}
-            onChange={handleInputChange}
-            className="w-full bg-gray-800 rounded-lg p-3"
-          />
-        </div>
-        <div>
-          <label className="block text-white mb-2">Contact</label>
-          <input
-            type="text"
-            name="contact"
-            value={formData.contact}
-            onChange={handleInputChange}
-            className="w-full bg-gray-800 rounded-lg p-3"
-          />
         </div>
       </div>
 
