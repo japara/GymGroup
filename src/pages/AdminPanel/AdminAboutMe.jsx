@@ -16,12 +16,11 @@ const AdminAboutMe = () => {
   const { data, isLoading, isError } = useGetallAboutMe();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  console.log(data);
+
+  // Initializing formData only when data is available
   const [formData, setFormData] = useState({
     id: null,
-    fullname: "",
-    professionalTitle: "",
-    location: "",
-    contact: "",
     story: "",
     experience: defaultExperience,
     image: null,
@@ -30,254 +29,66 @@ const AdminAboutMe = () => {
 
   useEffect(() => {
     if (data?.about?.[0]) {
+      const { id, story, experience, image, successStories } = data.about[0];
       setFormData({
-        id: data.about[0].id,
-        fullname: data.about[0].fullname || "",
-        professionalTitle: data.about[0].professionalTitle || "",
-        location: data.about[0].location || "",
-        contact: data.about[0].contact || "",
-        story: data.about[0].story || "",
-        experience: Array.isArray(data.about[0].experience)
-          ? data.about[0].experience
-          : defaultExperience,
-        image: data.about[0].image || null,
-        successStories: Array.isArray(data.about[0].successStories)
-          ? data.about[0].successStories
-          : [],
+        id: id || null,
+        story: story || "",
+        experience: Array.isArray(experience) ? experience : defaultExperience,
+        image: image || null,
+        successStories: Array.isArray(successStories) ? successStories : [],
       });
     }
   }, [data]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  // Update form data
+  const handleInputChange = (e) => {};
 
-  const handleProfilePictureUpload = async (e) => {
-    try {
-      const file = e.target.files[0];
-      if (!file) return;
+  // Profile picture upload
+  const handleProfilePictureUpload = async (e) => {};
 
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${Date.now()}-${Math.random()
-        .toString(36)
-        .substring(2)}.${fileExt}`;
-      const filePath = `profile-pictures/${fileName}`;
+  // Remove profile picture
+  const removeProfilePicture = async () => {};
 
-      const { error: uploadError } = await supabase.storage
-        .from("about")
-        .upload(filePath, file, {
-          cacheControl: "3600",
-          upsert: true,
-          contentType: file.type,
-        });
+  // Upload success stories
+  const handleSuccessStoryUpload = async (e) => {};
 
-      if (uploadError) throw uploadError;
+  // Remove success story
+  const removeSuccessStory = async (index) => {};
 
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("about").getPublicUrl(filePath);
+  // Manage experiences
+  const handleExperienceChange = (index, value) => {};
 
-      setFormData((prev) => ({
-        ...prev,
-        image: publicUrl,
-      }));
+  const removeExperience = (index) => {};
 
-      if (formData.id) {
-        const { error: updateError } = await supabase
-          .from("about")
-          .update({ image: publicUrl })
-          .eq("id", formData.id);
+  const addExperience = () => {};
 
-        if (updateError) throw updateError;
-      }
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      alert(error.message || "Failed to upload image");
-    }
-  };
-
-  const removeProfilePicture = async () => {
-    try {
-      if (formData.image) {
-        const urlParts = formData.image.split("/");
-        const filePath = `profile-pictures/${urlParts[urlParts.length - 1]}`;
-
-        const { error: removeError } = await supabase.storage
-          .from("about")
-          .remove([filePath]);
-
-        if (removeError) throw removeError;
-
-        setFormData((prev) => ({
-          ...prev,
-          image: null,
-        }));
-
-        if (formData.id) {
-          const { error: updateError } = await supabase
-            .from("about")
-            .update({ image: null })
-            .eq("id", formData.id);
-
-          if (updateError) throw updateError;
-        }
-      }
-    } catch (error) {
-      console.error("Error removing image:", error);
-      alert(error.message || "Failed to remove image");
-    }
-  };
-
-  const handleSuccessStoryUpload = async (e) => {
-    try {
-      const files = Array.from(e.target.files);
-      const newStories = [];
-
-      for (const file of files) {
-        const fileExt = file.name.split(".").pop();
-        const fileName = `${Date.now()}-${Math.random()
-          .toString(36)
-          .substring(2)}.${fileExt}`;
-        const filePath = `success-stories/${fileName}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from("about")
-          .upload(filePath, file, {
-            cacheControl: "3600",
-            upsert: true,
-            contentType: file.type,
-          });
-
-        if (uploadError) throw uploadError;
-
-        const {
-          data: { publicUrl },
-        } = supabase.storage.from("about").getPublicUrl(filePath);
-
-        newStories.push(publicUrl);
-      }
-
-      const updatedStories = [...formData.successStories, ...newStories];
-      setFormData((prev) => ({
-        ...prev,
-        successStories: updatedStories,
-      }));
-
-      if (formData.id) {
-        const { error: updateError } = await supabase
-          .from("about")
-          .update({ successStories: updatedStories })
-          .eq("id", formData.id);
-
-        if (updateError) throw updateError;
-      }
-    } catch (error) {
-      console.error("Error uploading success stories:", error);
-      alert(error.message || "Failed to upload success stories");
-    }
-  };
-
-  const removeSuccessStory = async (index) => {
-    try {
-      const storyUrl = formData.successStories[index];
-      const urlParts = storyUrl.split("/");
-      const filePath = `success-stories/${urlParts[urlParts.length - 1]}`;
-
-      const { error: removeError } = await supabase.storage
-        .from("about")
-        .remove([filePath]);
-
-      if (removeError) throw removeError;
-
-      const updatedStories = formData.successStories.filter(
-        (_, i) => i !== index
-      );
-      setFormData((prev) => ({
-        ...prev,
-        successStories: updatedStories,
-      }));
-
-      if (formData.id) {
-        const { error: updateError } = await supabase
-          .from("about")
-          .update({ successStories: updatedStories })
-          .eq("id", formData.id);
-
-        if (updateError) throw updateError;
-      }
-    } catch (error) {
-      console.error("Error removing success story:", error);
-      alert(error.message || "Failed to remove success story");
-    }
-  };
-
-  const handleExperienceChange = (index, value) => {
-    setFormData((prev) => {
-      const newExperience = [...prev.experience];
-      newExperience[index] = value;
-      return {
-        ...prev,
-        experience: newExperience,
-      };
-    });
-  };
-
-  const removeExperience = (index) => {
-    setFormData((prev) => ({
-      ...prev,
-      experience: prev.experience.filter((_, i) => i !== index),
-    }));
-  };
-
-  const addExperience = () => {
-    setFormData((prev) => ({
-      ...prev,
-      experience: [...prev.experience, "*"],
-    }));
-  };
-
+  // Submit updated data
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     try {
       const { error } = await supabase.from("about").upsert({
         id: formData.id,
-        fullname: formData.fullname,
-        professionalTitle: formData.professionalTitle,
-        location: formData.location,
-        contact: formData.contact,
         story: formData.story,
-        experience: formData.experience || [],
+        experience: formData.experience,
         image: formData.image,
         successStories: formData.successStories,
       });
-
       if (error) throw error;
       alert("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert(error.message || "Failed to update profile");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error loading profile data</div>;
-  }
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error loading profile data</div>;
 
   return (
     <div className="px-[20%] py-[5rem] my-[-2px] max-w-full mx-auto bg-[#121212] min-h-screen text-white">
-      <h1 className="text-3xl font-bold mb-2">About me</h1>
+      <h1 className="text-3xl font-bold mb-2">About Me</h1>
       <p className="text-gray-400 mb-8">Add info for your clients</p>
 
       {/* Profile Picture Section */}
@@ -313,60 +124,15 @@ const AdminAboutMe = () => {
         </div>
       </div>
 
-      {/* Personal Info Section */}
-      <div className="grid grid-cols-2 gap-6 mb-8">
-        <div>
-          <label className="block text-white mb-2">Input your Fullname</label>
-          <input
-            type="text"
-            name="fullname"
-            value={formData.fullname}
-            onChange={handleInputChange}
-            className="w-full bg-[#323232] rounded-lg p-3"
-          />
-        </div>
-        <div>
-          <label className="block text-white mb-2">Professional Title</label>
-          <input
-            type="text"
-            name="professionalTitle"
-            value={formData.professionalTitle}
-            onChange={handleInputChange}
-            className="w-full bg-[#323232] rounded-lg p-3"
-          />
-        </div>
-        <div>
-          <label className="block text-white mb-2">Location</label>
-          <input
-            type="text"
-            name="location"
-            value={formData.location}
-            onChange={handleInputChange}
-            className="w-full bg-[#323232] rounded-lg p-3"
-          />
-        </div>
-        <div>
-          <label className="block text-white mb-2">Contact</label>
-          <input
-            type="text"
-            name="contact"
-            value={formData.contact}
-            onChange={handleInputChange}
-            className="w-full bg-[#323232] rounded-lg p-3"
-          />
-        </div>
-      </div>
-
       {/* Story Section */}
       <div className="mb-8">
-        <label className="block text-white mb-2">Share your story</label>
+        <label className="block text-white mb-2">Share Your Story</label>
         <textarea
           name="story"
           value={formData.story}
           onChange={handleInputChange}
           rows={4}
           className="w-full bg-[#323232] rounded-lg p-3"
-          placeholder="Hi, I'm Tuna, a personal trainer dedicated to helping people transform through fitness..."
         />
       </div>
 
@@ -374,7 +140,7 @@ const AdminAboutMe = () => {
       <div className="mb-8">
         <h2 className="text-xl mb-4">Experience</h2>
         <div className="bg-[#323232] rounded-lg p-4">
-          {(formData.experience || []).map((exp, index) => (
+          {formData.experience.map((exp, index) => (
             <div key={index} className="flex items-center gap-2 mb-2">
               <input
                 type="text"
