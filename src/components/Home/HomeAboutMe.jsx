@@ -1,10 +1,10 @@
+import { Link } from "react-router-dom";
 import { useGetallAboutMe } from "../../hooks/useGetallAboutMe";
 import HomeAboutMeLoad from "../../skeletons/HomeAboutMeLoad";
 
 export default function HomeAboutMe() {
    
     const { data, isLoading, isError, error } = useGetallAboutMe();
-
     if (isLoading) {
         return <HomeAboutMeLoad />
       }
@@ -24,7 +24,7 @@ export default function HomeAboutMe() {
             {data?.about.filter(function filterAboutArray(item){return item.id == 1}).map(function getHomeAboutMeItem(item){
                 return(
                     <div key={item.id} className="flex flex-col md:flex-row md:gap-x-[4.4%] xl:justify-start xl:gap-x-[0px] ">
-                    <div className="flex w-[100%] w-full md:w-[45%]">
+                    <div className="flex w-full md:w-[45%]">
                         <img src={item.image} alt="foto" className="w-full max-w-[730px] max-h-[423px]" />
                     </div>
 
@@ -35,7 +35,7 @@ export default function HomeAboutMe() {
 
                         <div className="md:w-full md:flex md:justify-end">
                             <button className="bg-[#B8D44A] px-[38.5px] py-[8.5px] rounded-[8px] gap-[10px] max-md:text-[14px] leading-4 max-w-[184px] md:text-[1rem]">
-                                See More
+                               <Link to={"/blogs"}>See More</Link> 
                             </button>
                         </div>
                     </div>

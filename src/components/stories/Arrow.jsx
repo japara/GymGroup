@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 
 const Arrow = ({ count = 1, direction = "right" }) => {
@@ -6,6 +6,22 @@ const Arrow = ({ count = 1, direction = "right" }) => {
   const generateOpacity = (index, total) => {
     return 0.2 + (index / (total - 1)) * 0.8; // Scale opacity from 20% to 100%
   };
+
+  const [mobile, setMoobile] = useState(()=>{
+    if(window,innerWidth > 768 ) return false
+    return true
+  });
+
+  useEffect(()=>{
+      window.addEventListener("resize", ()=>{
+          if(window.innerWidth < 768){
+              setMoobile(true)
+          }else{
+              setMoobile(false)
+          }
+      })
+  
+  }, [mobile]);
 
   return (
     <div
@@ -22,6 +38,7 @@ const Arrow = ({ count = 1, direction = "right" }) => {
             transform: isRight ? "rotate(0deg)" : "rotate(180deg)",
             fill: `url(#gradient)`,
             strokeWidth: 2,
+            height: mobile? 50: 120,
           }}
         />
       ))}

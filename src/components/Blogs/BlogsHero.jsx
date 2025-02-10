@@ -12,7 +12,7 @@ export default function BlogsHero(){
                 <button className="border text-[#D7FD44] border-[#D7FD44] rounded-[30px] py-[4px] px-[8px] text-[13px] md:text-[16px] md:py-[10px] md:px-[29px] ">Nutrition and diet</button>
             </div>
 
-            <div className="w-[90%] max-h-[700px] m-auto max-h-[700px] mt-[40px] md:mt-[70px] mb-[100px] ">
+            <div className="w-[90%] max-h-[700px] m-auto mt-[40px] md:mt-[70px] mb-[100px] ">
                 <img className="w-full max-h-[700px]" src="http://localhost:5173/BlogsPageImg.png" alt="blogs-trainer-photo" />
             </div>
 
