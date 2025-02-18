@@ -40,27 +40,130 @@ const AdminAboutMe = () => {
     }
   }, [data]);
 
+  console.log(data);
+
   // Update form data
-  const handleInputChange = (e) => {};
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   // Profile picture upload
-  const handleProfilePictureUpload = async (e) => {};
+  const handleProfilePictureUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const filePath = `profile-pictures/${formData.id}/${file.name}`;
+    const { data, error } = await supabase.storage
+      .from("public")
+      .upload(filePath, file);
+
+    if (error) {
+      console.error("Error uploading profile picture:", error);
+      return;
+    }
+
+    const imageUrl = supabase.storage.from("public").getPublicUrl(filePath)
+      .data.publicUrl;
+    setFormData((prevData) => ({
+      ...prevData,
+      image: imageUrl,
+    }));
+  };
 
   // Remove profile picture
-  const removeProfilePicture = async () => {};
+  const removeProfilePicture = async () => {
+    if (!formData.image) return;
+
+    const filePath = formData.image.split("/").slice(-2).join("/");
+    const { error } = await supabase.storage.from("public").remove([filePath]);
+
+    if (error) {
+      console.error("Error removing profile picture:", error);
+      return;
+    }
+
+    setFormData((prevData) => ({
+      ...prevData,
+      image: null,
+    }));
+  };
 
   // Upload success stories
-  const handleSuccessStoryUpload = async (e) => {};
+  const handleSuccessStoryUpload = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+
+    const uploadedStories = await Promise.all(
+      files.map(async (file) => {
+        const filePath = `success-stories/${formData.id}/${file.name}`;
+        const { data, error } = await supabase.storage
+          .from("public")
+          .upload(filePath, file);
+
+        if (error) {
+          console.error("Error uploading success story:", error);
+          return null;
+        }
+
+        return supabase.storage.from("public").getPublicUrl(filePath).data
+          .publicUrl;
+      })
+    );
+
+    setFormData((prevData) => ({
+      ...prevData,
+      successStories: [
+        ...prevData.successStories,
+        ...uploadedStories.filter(Boolean),
+      ],
+    }));
+  };
 
   // Remove success story
-  const removeSuccessStory = async (index) => {};
+  const removeSuccessStory = async (index) => {
+    const storyUrl = formData.successStories[index];
+    const filePath = storyUrl.split("/").slice(-2).join("/");
+    const { error } = await supabase.storage.from("public").remove([filePath]);
+
+    if (error) {
+      console.error("Error removing success story:", error);
+      return;
+    }
+
+    setFormData((prevData) => ({
+      ...prevData,
+      successStories: prevData.successStories.filter((_, i) => i !== index),
+    }));
+  };
 
   // Manage experiences
-  const handleExperienceChange = (index, value) => {};
+  const handleExperienceChange = (index, value) => {
+    const updatedExperience = [...formData.experience];
+    updatedExperience[index] = value;
+    setFormData((prevData) => ({
+      ...prevData,
+      experience: updatedExperience,
+    }));
+  };
 
-  const removeExperience = (index) => {};
+  const removeExperience = (index) => {
+    const updatedExperience = formData.experience.filter((_, i) => i !== index);
+    setFormData((prevData) => ({
+      ...prevData,
+      experience: updatedExperience,
+    }));
+  };
 
-  const addExperience = () => {};
+  const addExperience = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      experience: [...prevData.experience, ""],
+    }));
+  };
 
   // Submit updated data
   const handleSubmit = async (e) => {
